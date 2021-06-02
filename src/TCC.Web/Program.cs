@@ -1,12 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TCC.Infra.IoC;
 
 namespace TCC.Web
 {
@@ -15,7 +8,6 @@ namespace TCC.Web
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            UseDbContext.CreateDbIfNotExists(host);
             host.Run();
         }
 

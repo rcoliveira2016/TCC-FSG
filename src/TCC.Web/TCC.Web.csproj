@@ -6,11 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BuildingBlocks.WebApi" Version="2.0.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TCC.Infra.IoC\TCC.Infra.IoC.csproj" />
+    <ProjectReference Include="..\TCC.Infra.Utils\TCC.Infra.Utils.csproj" />
+    <ProjectReference Include="..\TCC.Infra\TCC.Infra.csproj" />
   </ItemGroup>
 
 </Project>

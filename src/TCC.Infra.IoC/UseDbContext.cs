@@ -13,7 +13,10 @@ namespace TCC.Infra.IoC
         public static void RegisterBdContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<TccContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("TccContext"))
+                options.UseSqlServer(
+                    configuration.GetConnectionString("TccContext"), 
+                    x => x.MigrationsAssembly("TCC.Infra")
+                )
             );
         }
 

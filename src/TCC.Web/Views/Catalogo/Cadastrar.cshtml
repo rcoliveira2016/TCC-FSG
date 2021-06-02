@@ -1,4 +1,4 @@
-﻿@model TCC.Web.Models.ViewModel.CatalogosPodcastsViewModel
+﻿@model TCC.Web.Models.ViewModel.Catalogo.CadastroCatalogosPodcastsViewModel
 @{
     ViewData["Title"] = "Catalogar Podcasts";
 }
@@ -8,7 +8,7 @@
         <div class="form_main">
             <h2 class="heading">Catalogar Podcasts</h2>
             <div class="form">
-                <form enctype="multipart/form-data" method="post">
+                <form enctype="multipart/form-data" method="post" id="form-cadastro">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Nome" class="control-label"></label>
@@ -26,14 +26,59 @@
                         <span asp-validation-for="UrlSitePodcast" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <p>Enviar um ou mais arquivos :</p>
-                        <input type="file" name="Audio" multiple />
+                        <p>Selecione o arquivo de audio:</p>
+                        <input asp-for="Audio" type="file" />
+                        <div><span asp-validation-for="Audio" class="text-danger"></span></div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Cadastrar" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+@section Scripts{ 
+@await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+<script>
+    $(document).ready(function () {
+        var viewModel = @Html.Raw(Json.Serialize(Model));
+
+        const formulario = $("#form-cadastro");
+        const _audio = $('#Audio');
+        _audio.on('change', function () {
+            var file = _audio.prop('files')[0];
+            var reader = new FileReader();
+            console.log(file);
+
+
+            reader.addEventListener("load", function () {
+                console.log(this.result);
+                viewModel.audio = this.result.substr(23);
+            }, false);
+
+            reader.readAsDataURL(file);
+        });
+
+        formulario.on('submit', function (e) {
+            e.preventDefault();
+
+            viewModel.nome = $('#Nome').val();
+            viewModel.nomeEpisodio = $('#NomeEpisodio').val();
+            viewModel.urlSitePodcast = $('#UrlSitePodcast').val();
+            //viewModel.audio = btoa($('#Audio').prop('files')[0]);
+            
+            AjaxHelper.post(
+                '/ApiCatalogo/Cadastrar',
+                viewModel,
+                function (data) {
+                    console.log(data);
+                },
+                function (data) {
+                    console.log(data);
+                }
+            );
+        });
+    });
+</script>
+}

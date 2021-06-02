@@ -1,0 +1,83 @@
+﻿@model TCC.Web.Models.ViewModel.Catalogo.VizualizarCatalogosPodcastsViewModel
+@{
+    ViewData["Title"] = "Catalogar Podcasts";
+}
+<style>
+    label.control-label{
+        font-weight:900;
+    }
+    .status {
+        font-size: 1.5rem;
+        font-weight:900;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="form_main">
+            <h2 class="heading">Vizualizar Podcasts</h2>
+            <div class="form">
+                <form enctype="multipart/form-data" method="post" id="form-cadastro">
+                    <div class="form-group">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <div>
+                            @Model.Nome
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NomeEpisodio" class="control-label"></label>
+                        <div>
+                            @Model.NomeEpisodio
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DataCadastro" class="control-label"></label>
+                        <div>
+                            @Model.DataCadastro.ToString("dd/mm/yyyy HH:MM")
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.UrlSitePodcast))
+                    {
+                        <div class="form-group">
+                            <label asp-for="UrlSitePodcast" class="control-label"></label>
+                            <div>
+                                <a href="@Model.UrlSitePodcast">@Model.UrlSitePodcast</a>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label asp-for="Audio" class="control-label"></label>
+                        <div>
+                            <audio controls src="data:audio/ogg;base64,@Model.Audio"></audio>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Transcricao))
+                    {
+                        <div class="form-group">
+                            <label asp-for="Transcricao" class="control-label"></label>
+                            <div>
+                                @Model.Transcricao
+                            </div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ErroTranscricao))
+                    {
+                        <div class="form-group">
+                            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <label asp-for="ErroTranscricao" class="control-label"></label>
+                            </a>
+                            <div class="collapse" id="collapseExample">
+                                @Model.ErroTranscricao
+                            </div>
+                        </div>
+                    }
+                    @if (Model.estaCarregando)
+                    {
+                        <div class="form-group status">
+                            <i class="fa fa-cogs"></i> Podcast ainda está sendo transcrito
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

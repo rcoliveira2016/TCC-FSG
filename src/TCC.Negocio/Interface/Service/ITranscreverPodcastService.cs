@@ -7,9 +7,8 @@ using TCC.Negocio.Entidade;
 
 namespace TCC.Negocio.Interface.Service
 {
-    public interface ICatalogoPodcastService
+    public interface ITranscreverPodcastService
     {
-        long? Cadastrar(CatalogoPodcast catalogoPodcast);
-        CatalogoPodcast Visualizar(long id);
+        void Transcrever(CatalogoPodcast catalogoPodcast);
     }
 }

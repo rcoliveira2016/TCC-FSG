@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TCC.Infra.Map;
 using TCC.Negocio.Entidade;
 
 namespace TCC.Infra.Context
@@ -10,10 +11,9 @@ namespace TCC.Infra.Context
         {
         }
 
-        public DbSet<CatalogoPodcast> CatalogosPodcasts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CatalogoPodcast>().ToTable("CatalogosPodcasts");
+            modelBuilder.ApplyConfiguration(new CatalogoPodcastMap());
         }
     }
 }

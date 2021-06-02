@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Transcrição Podcast</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -22,10 +23,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Catalogo" asp-action="Cadastrar">Catalogar</a>
+                            <a class="nav-link text-dark" asp-controller="Catalogo" asp-action="Cadastrar">Catalogar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Catalogo" asp-action="Cadastrar">Pesquisar</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pesquisa" asp-action="Index">Pesquisar</a>
                         </li>
                     </ul>
                 </div>
@@ -45,6 +46,9 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://malsup.github.io/jquery.blockUI.js"></script>
+    <script src="~/js/global/ajax/ajax-helper.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
