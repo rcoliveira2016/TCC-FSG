@@ -38,12 +38,13 @@
         </div>
     </div>
 </div>
-@section Scripts{ 
-@await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+@section Scripts{
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+    @await Html.PartialAsync("/Views/Shared/Toasts/Toasts_Erro.cshtml")
 <script>
     $(document).ready(function () {
         var viewModel = @Html.Raw(Json.Serialize(Model));
-
+        
         const formulario = $("#form-cadastro");
         const _audio = $('#Audio');
         _audio.on('change', function () {
@@ -67,15 +68,23 @@
             viewModel.nomeEpisodio = $('#NomeEpisodio').val();
             viewModel.urlSitePodcast = $('#UrlSitePodcast').val();
             //viewModel.audio = btoa($('#Audio').prop('files')[0]);
-            
+
             AjaxHelper.post(
                 '/ApiCatalogo/Cadastrar',
                 viewModel,
                 function (data) {
-                    console.log(data);
+                    setTimeout(function () {
+                        window.location.href = "/Catalogo/Vizualizar/" + data.data;
+                    }, 1000);
                 },
                 function (data) {
-                    console.log(data);
+                    console.log(data.responseJSON);
+                    $('#toast-erro').find('.texto').html(
+                        data.responseJSON.errors.reduce((accumulator, currentError) =>
+                            accumulator.concat(`${currentError}\n`)
+                        )
+                    )
+                    $('#toast-erro').toast('show')
                 }
             );
         });

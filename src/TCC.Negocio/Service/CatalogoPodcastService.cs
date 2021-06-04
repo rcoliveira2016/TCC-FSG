@@ -1,4 +1,6 @@
 ﻿
+using BuildingBlocks.Domain.Notifications;
+using MediatR;
 using System;
 using System.Linq;
 using System.Threading;
@@ -12,14 +14,23 @@ namespace TCC.Negocio.Service
     {
         private readonly ICatalogoPodcastRepository catalogoPodcastRepository;
         private readonly ITranscreverPodcastService transcreverPodcastService;
-        public CatalogoPodcastService(ICatalogoPodcastRepository catalogoPodcastRepository, ITranscreverPodcastService transcreverPodcastService)
+        private readonly IMediator bus;
+
+        public CatalogoPodcastService(ICatalogoPodcastRepository catalogoPodcastRepository, ITranscreverPodcastService transcreverPodcastService, IMediator bus)
         {
             this.catalogoPodcastRepository = catalogoPodcastRepository;
             this.transcreverPodcastService = transcreverPodcastService;
+            this.bus = bus;
         }
 
         public long? Cadastrar(CatalogoPodcast catalogoPodcast)
         {
+            if(catalogoPodcastRepository.dbContext.Set<CatalogoPodcast>().Any(x=> x.Nome == catalogoPodcast.Nome && x.NomeEpisodio == catalogoPodcast.NomeEpisodio))
+            {
+                bus.Publish(DomainNotification.Create("erro", "Nome e Episodeos repetidos", DomainNotificationType.Error));
+                return 0;
+            }
+
             catalogoPodcast.DataCadastro = DateTime.Now;
             catalogoPodcastRepository.dbContext.Add(catalogoPodcast);
             catalogoPodcastRepository.dbContext.SaveChanges();

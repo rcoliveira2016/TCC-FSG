@@ -7,6 +7,7 @@ using TCC.Infra.Data.EntityFramework;
 using TCC.Negocio.Interface.Repository;
 using TCC.Negocio.Interface.Service;
 using TCC.Negocio.Service;
+using MediatR;
 
 namespace TCC.Infra.IoC
 {
@@ -15,7 +16,7 @@ namespace TCC.Infra.IoC
         public static void RegisterServices(this IServiceCollection services, in IConfiguration configuration)
         {
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
-
+            services.AddMediatR(typeof(CatalogosPodcastsRepository).Assembly);
             services.AddScoped<ICatalogoPodcastService, CatalogoPodcastService>();
             services.AddScoped<ITranscreverPodcastService, TranscreverPodcastService>();
             services.AddScoped<IPesquisaPodcastService, PesquisaPodcastService>();

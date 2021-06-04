@@ -18,7 +18,7 @@ namespace TCC.Infra.Data.Dapper
         }
         public IEnumerable<PesquisaPodcast> Buscar(string termo = null)
         {
-            termo = string.IsNullOrEmpty(termo) ? null : $"%{termo}%";
+            termo = string.IsNullOrEmpty(termo) ? null : $"%{termo.ToUpper()}%";
             return ExecuteQuery<PesquisaPodcast>(@"
                 SELECT 
                     Id,
@@ -27,9 +27,9 @@ namespace TCC.Infra.Data.Dapper
                 from 
                     CatalogosPodcasts 
                 where 
-                    @termo IS NULL or (Nome like @termo OR 
-                    NomeEpisodio like @termo OR
-                    Transcricao like @termo)", new { termo });
+                    @termo IS NULL or (Upper(Nome) like @termo OR 
+                    Upper(NomeEpisodio) like @termo OR
+                    Upper(Transcricao) like @termo)", new { termo });
         }
     }
 }
