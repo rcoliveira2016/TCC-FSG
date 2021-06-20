@@ -3,12 +3,16 @@
     ViewData["Title"] = "Catalogar Podcasts";
 }
 <style>
-    label.control-label{
-        font-weight:900;
+    label.control-label {
+        font-weight: 900;
     }
+
     .status {
         font-size: 1.5rem;
-        font-weight:900;
+        font-weight: 900;
+    }
+    #container-transcricao label{
+        font-size:1.6em;
     }
 </style>
 <div class="row">
@@ -17,6 +21,20 @@
             <h2 class="heading">Vizualizar Podcasts</h2>
             <div class="form">
                 <form enctype="multipart/form-data" method="post" id="form-cadastro">
+                    @if (!string.IsNullOrEmpty(Model.ErroTranscricao))
+                    {
+                        <div class="form-group">
+                            <h3 class="text-danger">Ocorreu um erro na trancrição</h3>
+                        </div>
+                        <div class="form-group">
+                            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <label class="control-label">Click aqui para mostar a descrição do erro</label>
+                            </a>
+                            <div class="collapse" id="collapseExample">
+                                @Model.ErroTranscricao
+                            </div>
+                        </div>
+                    }
                     <div class="form-group">
                         <label asp-for="Nome" class="control-label"></label>
                         <div>
@@ -32,7 +50,7 @@
                     <div class="form-group">
                         <label asp-for="DataCadastro" class="control-label"></label>
                         <div>
-                            @Model.DataCadastro.ToString("dd/mm/yyyy HH:MM")
+                            @Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")
                         </div>
                     </div>
                     @if (!string.IsNullOrEmpty(Model.UrlSitePodcast))
@@ -45,6 +63,7 @@
                         </div>
                     }
                     <div class="form-group">
+                            <hr />
                         <label asp-for="Audio" class="control-label"></label>
                         <div>
                             <audio controls src="data:audio/ogg;base64,@Model.Audio"></audio>
@@ -52,21 +71,13 @@
                     </div>
                     @if (!string.IsNullOrEmpty(Model.Transcricao))
                     {
-                        <div class="form-group">
+                        <div class="form-group mt-4" id="container-transcricao">
                             <label asp-for="Transcricao" class="control-label"></label>
-                            <div>
-                                @Model.Transcricao
-                            </div>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(Model.ErroTranscricao))
-                    {
-                        <div class="form-group">
-                            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                <label asp-for="ErroTranscricao" class="control-label"></label>
-                            </a>
-                            <div class="collapse" id="collapseExample">
-                                @Model.ErroTranscricao
+                            <hr />
+                            <div id="div-texto-transcricao">
+                                <p>
+                                    @Model.Transcricao
+                                </p>
                             </div>
                         </div>
                     }
@@ -76,7 +87,7 @@
                             <p class="status">
                                 <i class="fa fa-cogs"></i> Podcast ainda está sendo transcrito
                             </p>
-                            <span>Recarregue a pagina</span>
+                            <span>Recarregue a pagina </span>
                         </div>
                     }
                 </form>
@@ -84,3 +95,21 @@
         </div>
     </div>
 </div>
+@if (!string.IsNullOrEmpty(ViewBag.TermoPesquisado) && !string.IsNullOrEmpty(Model.Transcricao))
+{
+    @section Scripts{
+        <script src="https://cdn.jsdelivr.net/mark.js/8.6.0/jquery.mark.min.js"></script>
+        <script>
+        $(document).ready(function () {
+            if ($('#div-texto-transcricao').length) {
+
+                $('#div-texto-transcricao').unmark({
+                    done: function () {
+                        $('#div-texto-transcricao').mark("@ViewBag.TermoPesquisado");
+                    }
+                });
+            }
+        });
+        </script>
+    }
+}

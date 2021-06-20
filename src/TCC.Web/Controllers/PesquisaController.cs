@@ -23,7 +23,8 @@ namespace TCC.Web.Controllers
             return View(pesquisaPodcastService.Buscar().Select(x=> new PesquisaPodcastsViewModel { 
                 Id = x.Id,
                 Nome = x.Nome,
-                NomeEpisodio = x.NomeEpisodio
+                NomeEpisodio = x.NomeEpisodio,
+                PossuiErro = !string.IsNullOrEmpty(x.ErroTranscricao)
             }));
         }
     }

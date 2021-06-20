@@ -3,6 +3,7 @@ using BuildingBlocks.WebApi.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading;
 using TCC.Negocio.Interface.Service;
 using TCC.Web.Models.ViewModel.Pesquisa;
 
@@ -22,7 +23,8 @@ namespace TCC.Web.Controllers.Api
             {
                 Id = x.Id,
                 Nome = x.Nome,
-                NomeEpisodio = x.NomeEpisodio
+                NomeEpisodio = x.NomeEpisodio,
+                PossuiErro = !string.IsNullOrEmpty(x.ErroTranscricao)
             }));
         }
     }

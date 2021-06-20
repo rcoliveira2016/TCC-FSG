@@ -29,8 +29,9 @@ namespace TCC.Web.Controllers
             return View(new CadastroCatalogosPodcastsViewModel { });
         }
 
-        public IActionResult Vizualizar(long id)
+        public IActionResult Vizualizar(long id, string termo = null)
         {
+            ViewBag.TermoPesquisado = termo;
             var model = catalogoPodcastService.Visualizar(id);
             return View(new VizualizarCatalogosPodcastsViewModel
             {

@@ -69,6 +69,12 @@
                         <div>
                             <p><strong>Podcast:</strong> @item.Nome</p>
                             <p><strong>Episódio:</strong> @item.NomeEpisodio</p>
+                            @if (item.PossuiErro)
+                            {
+                                <p>
+                                    <span class="text-danger"><strong>Erro na transcrição</strong></span>
+                                </p>
+                            }
                         </div>
                         <div>
                             <a href="/Catalogo/Vizualizar/@item.Id">
@@ -87,7 +93,9 @@
         const conatiner__item_podcast = $('.conatiner__item_podcast');
 
         var pesquisar = function (termo) {
-            
+            const templatePossuiErro = `<p>
+                                    <span class="text-danger"><strong>Erro na transcrição</strong></span>
+                                </p>`
             AjaxHelper.post(
                 '/ApiPesquisa/Buscar',
                 { termo },
@@ -98,9 +106,10 @@
                                             <div>
                                                 <p><strong>Podcast:</strong> ${x.nome}</p>
                                                 <p><strong>Episódio:</strong> ${x.nomeEpisodio}</p>
+                                                ${x.possuiErro ? templatePossuiErro: ''}
                                             </div>
                                             <div>
-                                                <a href="/Catalogo/Vizualizar/${x.id}">
+                                                <a href="/Catalogo/Vizualizar/${x.id}?termo=${termo}">
                                                     <i class="fa fa-chevron-circle-right icone-acesso"></i>
                                                 </a>
                                             </div>

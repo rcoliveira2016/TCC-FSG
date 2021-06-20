@@ -13,5 +13,6 @@ namespace TCC.Web.Models.ViewModel.Pesquisa
         public long Id { get; set; }
         public string Nome { get; set; }
         public string NomeEpisodio { get; set; }
+        public bool PossuiErro { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace TCC.Negocio.Entidade
         public long Id { get; set; }
         public string Nome { get; set; }
         public string NomeEpisodio { get; set; }
+        public string ErroTranscricao { get; set; }
     }
 }

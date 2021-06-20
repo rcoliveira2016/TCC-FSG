@@ -5,7 +5,13 @@ var AjaxHelper = (function () {
 
     var _changeBlockUIState = function () {
         if (_pendingRequests) {
-            $.blockUI();
+            $.blockUI({
+                message: '<h1><i class="fas fa-spinner fa-spin"></i></h1>',
+                css: {
+                    border: 'none',
+                    padding: '30px'
+                }
+            });
         } else {
             $.unblockUI();
         }

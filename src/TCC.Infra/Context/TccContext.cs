@@ -13,6 +13,7 @@ namespace TCC.Infra.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.ApplyConfiguration(new CatalogoPodcastMap());
         }
     }

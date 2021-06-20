@@ -23,7 +23,8 @@ namespace TCC.Infra.Data.Dapper
                 SELECT 
                     Id,
                     Nome,
-                    NomeEpisodio 
+                    NomeEpisodio,
+                    ErroTranscricao
                 from 
                     CatalogosPodcasts 
                 where 

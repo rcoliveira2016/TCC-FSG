@@ -83,3 +83,15 @@ body {
     padding-bottom: 9px;
     position: relative;
 }
+
+.blockUI.blockMsg.blockPage {
+    border-radius: 10px;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 15% !important;
+    min-width: 100px !important;
+}
+.mark, mark{
+    background-color:yellow !important;
+}
