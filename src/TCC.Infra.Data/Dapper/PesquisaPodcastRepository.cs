@@ -16,21 +16,29 @@ namespace TCC.Infra.Data.Dapper
         {
 
         }
-        public IEnumerable<PesquisaPodcast> Buscar(string termo = null)
+        public IEnumerable<PesquisaPodcast> Buscar(long[] ids = null)
         {
-            termo = string.IsNullOrEmpty(termo) ? null : $"%{termo.ToUpper()}%";
-            return ExecuteQuery<PesquisaPodcast>(@"
-                SELECT 
+            if(!ids?.Any() ?? false)
+                return Enumerable.Empty<PesquisaPodcast>();
+
+            return ExecuteQuery<PesquisaPodcast>(@$"
+                {SqlBase()} 
+                where 
+                    id in @ids", new { ids });
+        }
+        public IEnumerable<PesquisaPodcast> Buscar()
+        {
+            return ExecuteQuery<PesquisaPodcast>(SqlBase());
+        }
+        private static string SqlBase()
+        {
+            return @"SELECT 
                     Id,
                     Nome,
                     NomeEpisodio,
                     ErroTranscricao
-                from 
-                    CatalogosPodcasts 
-                where 
-                    @termo IS NULL or (Upper(Nome) like @termo OR 
-                    Upper(NomeEpisodio) like @termo OR
-                    Upper(Transcricao) like @termo)", new { termo });
+                from
+                    CatalogosPodcasts";
         }
     }
 }

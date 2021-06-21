@@ -5,6 +5,7 @@ namespace TCC.Negocio.Interface.Repository
 {
     public interface IPesquisaPodcastRepository
     {
-        IEnumerable<PesquisaPodcast> Buscar(string termo = null);
+        IEnumerable<PesquisaPodcast> Buscar(long[] ids);
+        IEnumerable<PesquisaPodcast> Buscar();
     }
 }

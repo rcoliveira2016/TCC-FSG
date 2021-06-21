@@ -10,14 +10,21 @@ namespace TCC.Negocio.Service
     public class PesquisaPodcastService : IPesquisaPodcastService
     {
         private readonly IPesquisaPodcastRepository pesquisaPodcastRepository;
-        public PesquisaPodcastService(IPesquisaPodcastRepository pesquisaPodcastRepository)
+        private readonly ISonicService sonicService;
+        public PesquisaPodcastService(IPesquisaPodcastRepository pesquisaPodcastRepository, ISonicService sonicService)
         {
             this.pesquisaPodcastRepository = pesquisaPodcastRepository;
+            this.sonicService = sonicService;
         }
 
         public IEnumerable<PesquisaPodcast> Buscar(string termo = null)
         {
-            return pesquisaPodcastRepository.Buscar(termo);
+            if (string.IsNullOrEmpty(termo))
+                return pesquisaPodcastRepository.Buscar();
+
+            var resultado = sonicService.Consultar(termo);
+            return pesquisaPodcastRepository.Buscar(resultado.Select(x=> x.Id).ToArray());
         }
+
     }
 }

@@ -8,6 +8,7 @@ using TCC.Negocio.Interface.Repository;
 using TCC.Negocio.Interface.Service;
 using TCC.Negocio.Service;
 using MediatR;
+using TCC.Negocio.Service.Sonic;
 
 namespace TCC.Infra.IoC
 {
@@ -20,6 +21,7 @@ namespace TCC.Infra.IoC
             services.AddScoped<ICatalogoPodcastService, CatalogoPodcastService>();
             services.AddScoped<ITranscreverPodcastService, TranscreverPodcastService>();
             services.AddScoped<IPesquisaPodcastService, PesquisaPodcastService>();
+            services.AddScoped<ISonicService, SonicService>();
 
 
             services.AddScoped<ICatalogoPodcastRepository, CatalogosPodcastsRepository>();

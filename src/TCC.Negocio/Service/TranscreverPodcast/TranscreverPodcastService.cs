@@ -14,12 +14,14 @@ using System.Web;
 using TCC.Negocio.Entidade;
 using TCC.Negocio.Interface.Repository;
 using TCC.Negocio.Interface.Service;
+using TCC.Negocio.Service.Sonic;
 
 namespace TCC.Negocio.Service
 {
     public sealed class TranscreverPodcastService : ITranscreverPodcastService
     {
         private readonly ICatalogosPodcastsDapperRepository catalogosPodcastsDapperRepository;
+        private readonly ISonicService sonicService;
         private readonly string location = "us-south";
         private readonly string instanceId = "6f6ae3b7-10f8-4cd8-9646-1e6dcd6b5966";
         private readonly string model = "pt-BR_BroadbandModel";
@@ -32,9 +34,10 @@ namespace TCC.Negocio.Service
             @"{""action"": ""stop""}"
         ));
 
-        public TranscreverPodcastService(ICatalogosPodcastsDapperRepository catalogosPodcastsDapperRepository)
+        public TranscreverPodcastService(ICatalogosPodcastsDapperRepository catalogosPodcastsDapperRepository, ISonicService sonicService)
         {
             this.catalogosPodcastsDapperRepository = catalogosPodcastsDapperRepository;
+            this.sonicService = sonicService;
         }
 
         public void Transcrever(CatalogoPodcast catalogoPodcast)
@@ -154,11 +157,16 @@ namespace TCC.Negocio.Service
             var result = JsonSerializerMemoryStream<ResultRoot>(message);
             if (result.results == null) return;
             if(result.results.Any(x=> x.final))
-                catalogosPodcastsDapperRepository.UpdateTrancricao(catalogoPodcast.Id, 
-                    result.results
-                        .SelectMany(x=> x.alternatives)
-                        .Select(x=> x.transcript)
-                        .Aggregate((a,b)=> $"{a} {b}"));
+            {
+                var trancricao = result.results
+                        .SelectMany(x => x.alternatives)
+                        .Select(x => x.transcript)
+                        .Aggregate((a, b) => $"{a} {b}");
+
+                catalogosPodcastsDapperRepository.UpdateTrancricao(catalogoPodcast.Id, trancricao);
+                catalogoPodcast.Transcricao = trancricao;
+                sonicService.CadastrarRegistro(catalogoPodcast);
+            }                
         }
 
         private T JsonSerializerMemoryStream<T>(string json)
