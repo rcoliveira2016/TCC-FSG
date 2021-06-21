@@ -11,7 +11,8 @@
 	/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "<YourNewStrong@Passw0rd>"
 
 ## Serviço de busca: Sonic
-link do repositorio do projeto: https://github.com/valeriansaliou/sonic;
+link do repositorio do projeto: https://github.com/valeriansaliou/sonic
+
 link do video que pode ajudar: https://www.youtube.com/watch?v=rNCGwggC1RI
 
 ### Commando doker usados
