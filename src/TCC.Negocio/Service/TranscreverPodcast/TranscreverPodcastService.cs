@@ -23,9 +23,9 @@ namespace TCC.Negocio.Service
         private readonly ICatalogosPodcastsDapperRepository catalogosPodcastsDapperRepository;
         private readonly ISonicService sonicService;
         private readonly string location = "us-south";
-        private readonly string instanceId = "6f6ae3b7-10f8-4cd8-9646-1e6dcd6b5966";
+        private readonly string instanceId = "<identificador-da-intancia-ibm>";
         private readonly string model = "pt-BR_BroadbandModel";
-        private readonly string chaveApi = "kTo3Tpdw1Sb5A7-lIgdHlzv9hWuQ_RRQKA9v0KdfEPWz";
+        private readonly string chaveApi = "<chave-da-api>";
 
         private ArraySegment<byte> openingMessage = new ArraySegment<byte>(Encoding.UTF8.GetBytes(
            "{\"action\": \"start\", \"content-type\": \"audio/mp3\", \"word_confidence \" : true }"
